@@ -37,8 +37,6 @@ services:
     container_name: frontend
     networks:
       - rnk_nw
-    volumes:
-      - mysql_vol:/usr/share/nginx/html/
     ports:
       - "80:80"
     depends_on:
