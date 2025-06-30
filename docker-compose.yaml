@@ -1,0 +1,10 @@
+networks:
+  rnk_nw: {}  # Custom network name
+
+volumes:
+  mysql_vol:  # Custom volume for MySQL data
+
+servive:
+  mysql:
+    build:
+      context: 
