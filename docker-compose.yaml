@@ -4,7 +4,7 @@ networks:
 volumes:
   mysql_vol:  # Custom volume for MySQL data
 
-servive: 
+service: 
   mysql_image: # mysql Image building
     build:
       context: /home/ec2-user/docker-volumes-compose/mysql/
