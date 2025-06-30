@@ -1,0 +1,46 @@
+version: "3.8" # optional
+
+networks:
+  rnk_nw: {}
+
+volumes:
+  mysql_vol:
+
+services:
+  mysql_container:
+    build:
+      context: /home/ec2-user/docker-volumes-compose/mysql/
+      dockerfile: Dockerfile
+    image: mysql:1.0.0
+    container_name: mysql
+    networks:
+      - rnk_nw
+    volumes:
+      - mysql_vol:/var/lib/mysql
+
+  backend_container:
+    build:
+      context: /home/ec2-user/docker-volumes-compose/backend/
+      dockerfile: Dockerfile
+    image: backend:1.0.0
+    container_name: backend
+    networks:
+      - rnk_nw
+    command: sh -c "sleep 20 && node /opt/backend/index.js"
+    depends_on:
+      - mysql_container
+
+  frontend_container:
+    build:
+      context: /home/ec2-user/docker-volumes-compose/frontend/
+      dockerfile: Dockerfile
+    image: frontend:1.0.0
+    container_name: frontend
+    networks:
+      - rnk_nw
+    volumes:
+      - mysql_vol:/usr/share/nginx/html/
+    ports:
+      - "80:80"
+    depends_on:
+      - backend_container
