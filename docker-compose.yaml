@@ -6,7 +6,7 @@ volumes:
   mysql_vol:
 
 services:
-  mysql_container:
+  mysql:
     build:
       context: /home/ec2-user/docker-volumes-compose/mysql/
       dockerfile: Dockerfile
@@ -17,7 +17,7 @@ services:
     volumes:
       - mysql_vol:/var/lib/mysql
 
-  backend_container:
+  backend:
     build:
       context: /home/ec2-user/docker-volumes-compose/backend/
       dockerfile: Dockerfile
@@ -27,9 +27,9 @@ services:
       - rnk_nw
     command: sh -c "sleep 20 && node /app/index.js"
     depends_on:
-      - mysql_container
+      - mysql
 
-  frontend_container:
+  frontend:
     build:
       context: /home/ec2-user/docker-volumes-compose/frontend/
       dockerfile: Dockerfile
@@ -42,4 +42,4 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - backend_container
+      - backend
